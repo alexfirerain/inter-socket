@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Client {
     public static void main(String[] args) {
@@ -10,7 +9,7 @@ public class Client {
             BufferedWriter outwards = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))
             )
         {
-            outwards.write("Хуй");
+            outwards.write("Connector");
 
 
         } catch (IOException e) {
