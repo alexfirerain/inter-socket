@@ -7,29 +7,28 @@ import java.net.Socket;
 
 public class Server {
     static ServerSocket serverSocket;
+
     static final int S_PORT = 8111;
 
     public static void main(String[] args) throws IOException {
-
         serverSocket = new ServerSocket(S_PORT);
-
-        try (Socket clientSocket = serverSocket.accept();
-             PrintWriter toClient = new PrintWriter(clientSocket.getOutputStream(), true);
-             BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
-             )
-        {
+        System.out.println("Hello, the Server gets running");
+        String clientsName;
+        try (
+                Socket clientSocket = serverSocket.accept();
+                PrintWriter sendToClient = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader getFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+        ) {
             System.out.println("Establish a new connection accepted from: " +
                     clientSocket.getRemoteSocketAddress().toString());
 
-            toClient.println("Hi, enter your name:");
-            final String clientName = fromClient.readLine();
-
-            toClient.println(String.format("Hi %s, you've connected via port #%d",
-                    clientName, clientSocket.getPort()));
-
+            sendToClient.println("Hi, enter your name:");
+            clientsName = getFromClient.readLine();
+            sendToClient.printf(String.format(
+                    "Hi %s, you've connected to the LocalServer:%d via port #%d%nHave your luck!",
+                    clientsName, S_PORT, clientSocket.getPort()));
         }
-
+        System.out.printf("Client's name was %s. Connection closed.%n", clientsName);
     }
 
 }
-
